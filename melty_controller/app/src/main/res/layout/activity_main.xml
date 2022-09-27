@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/connectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:onClick="scanToConnect"
+        android:text="Connect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <Button
+        android:id="@+id/disconnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:onClick="disconnect"
+        android:text="Disconnect"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <SeekBar
+        android:id="@+id/trackingAdjustSeek"
+        style="@android:style/Widget.DeviceDefault.SeekBar"
+        android:layout_width="379dp"
+        android:layout_height="27dp"
+        android:max="1000"
+        android:progress="500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.622" />
+
+    <SeekBar
+        android:id="@+id/throttleSeek"
+        style="@android:style/Widget.DeviceDefault.SeekBar"
+        android:layout_width="123dp"
+        android:layout_height="228dp"
+        android:layout_marginEnd="8dp"
+        android:max="100"
+        android:progress="0"
+        android:rotation="270"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <SeekBar
+        android:id="@+id/fineTrackAdjustSeek"
+        style="@android:style/Widget.DeviceDefault.SeekBar"
+        android:layout_width="293dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="16dp"
+        android:max="1000"
+        android:progress="500"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/rpmText"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="4dp"
+        android:text="Current RPM"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/trackingAdjustSeek"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551" />
+
+    <TextView
+        android:id="@+id/headingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="140dp"
+        android:text="Heading: 0"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/trackingAdjustSeek"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/radiusText"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Radius"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/translateText"
+        app:layout_constraintStart_toEndOf="@+id/translateText"
+        app:layout_constraintTop_toTopOf="@+id/translateText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/connectStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Disconnected"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/translateText"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="112dp"
+        android:text="Translate"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rpmText"
+        app:layout_constraintStart_toEndOf="@+id/rpmText"
+        app:layout_constraintTop_toTopOf="@+id/rpmText"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/fineAdjustLabel"
+        android:layout_width="299dp"
+        android:layout_height="25dp"
+        android:text="Fine Adjust / Steer"
+        android:textSize="20dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/fineTrackAdjustSeek"
+        tools:layout_editor_absoluteX="-2dp" />
+
+    <TextView
+        android:id="@+id/throttleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="112dp"
+
+
+        android:layout_marginEnd="20dp"
+        android:text="Throttle: 0"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/radiusText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/radiusText"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/radiusAdjustLabel"
+        android:layout_width="299dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="8dp"
+
+        android:text="Radius Adjust"
+
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/trackingAdjustSeek"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/tiltSteerCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:checked="true"
+        android:text="Tilt Steer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.004"
+        app:layout_constraintStart_toEndOf="@+id/fineTrackAdjustSeek" />
+
+    <CheckBox
+        android:id="@+id/heartBeatCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:checked="true"
+        android:text="Heart Beat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintStart_toEndOf="@+id/tiltSteerCheckBox" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="88dp"
+        tools:layout_editor_absoluteY="268dp">
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="42dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:onClick="headingLedIncrease"
+        android:text="+"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@+id/connectButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="43dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="8dp"
+        android:text="-"
+        android:textSize="10dp"
+        android:onClick="headingLedDecrease"
+        app:layout_constraintBottom_toBottomOf="@+id/button3"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Melty Control</string>
+    <string name="preference_file_key">melty_control</string>
+
+    <string name="radius_preference">radius</string>
+    <string name="heading_preference">heading</string>
+
+</resources>

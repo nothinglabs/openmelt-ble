@@ -1,0 +1,2 @@
+osource "c:/data/melty_ble/firmware/boards/shields/*/Kconfig.defconfig"
+osource "C:/Users/rich/ncs/v2.0.2/nrf/boards/shields/*/Kconfig.defconfig"
