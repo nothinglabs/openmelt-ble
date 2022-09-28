@@ -15,8 +15,10 @@
 #include "melty_ble.h"
 #include "analog_in.h"
 
-#define MELTY_LED_PIN			29
-#define MOTOR_PIN				30
+#define MELTY_LED_PIN			2
+#define MOTOR_PIN1				4
+#define MOTOR_PIN2				30
+
 
 //full power spin in below this number
 #define MIN_TRANSLATION_RPM                    600
@@ -68,14 +70,16 @@ void init_melty(void){
 
 	dev = device_get_binding("GPIO_0");
 	gpio_pin_configure(dev, MELTY_LED_PIN, GPIO_OUTPUT); 
-	gpio_pin_configure(dev, MOTOR_PIN, GPIO_OUTPUT); 
+	gpio_pin_configure(dev, MOTOR_PIN1, GPIO_OUTPUT); 
+	gpio_pin_configure(dev, MOTOR_PIN2, GPIO_OUTPUT); 
 
 	zero_g_accel = adc_multi_sample(INIT_ADC_READS);
 }
 
 void motors_safe(void) {
     //motor off!
-	gpio_pin_set(dev, MOTOR_PIN, 0);
+	gpio_pin_set(dev, MOTOR_PIN1, 0);
+	gpio_pin_set(dev, MOTOR_PIN2, 0);
 }
 
 
@@ -196,18 +200,33 @@ void do_melty(void){
 		if (get_translate_direction() == TRANSLATE_FORWARD || (get_translate_direction() == TRANSLATE_IDLE && cycle_count % 2 == 0)) {
 			if (time_spent_this_rotation_us >= melty_parameters.motor_start1 && 
 				time_spent_this_rotation_us <= melty_parameters.motor_stop1) {
-					gpio_pin_set(dev, MOTOR_PIN, 1);
+					gpio_pin_set(dev, MOTOR_PIN1, 1);
 			} else {
-					gpio_pin_set(dev, MOTOR_PIN, 0);
+					gpio_pin_set(dev, MOTOR_PIN1, 0);
 			}
+
+			if (time_spent_this_rotation_us >= melty_parameters.motor_start2 || 
+				time_spent_this_rotation_us <= melty_parameters.motor_stop2) {
+					gpio_pin_set(dev, MOTOR_PIN2, 1);
+			} else {
+					gpio_pin_set(dev, MOTOR_PIN2, 0);
+			}
+
 		}
 
 		if (get_translate_direction() == TRANSLATE_REVERSE || (get_translate_direction() == TRANSLATE_IDLE && cycle_count %2 == 1)) {
 			if (time_spent_this_rotation_us >= melty_parameters.motor_start2 || 
 				time_spent_this_rotation_us <= melty_parameters.motor_stop2) {
-					gpio_pin_set(dev, MOTOR_PIN, 1);
+					gpio_pin_set(dev, MOTOR_PIN1, 1);
 			} else {
-					gpio_pin_set(dev, MOTOR_PIN, 0);
+					gpio_pin_set(dev, MOTOR_PIN1, 0);
+			}
+
+		if (time_spent_this_rotation_us >= melty_parameters.motor_start1 && 
+				time_spent_this_rotation_us <= melty_parameters.motor_stop1) {
+					gpio_pin_set(dev, MOTOR_PIN2, 1);
+			} else {
+					gpio_pin_set(dev, MOTOR_PIN2, 0);
 			}
 
 		}
