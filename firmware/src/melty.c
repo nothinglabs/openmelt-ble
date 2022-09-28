@@ -17,11 +17,11 @@
 
 #define MELTY_LED_PIN			2
 #define MOTOR_PIN1				4
-#define MOTOR_PIN2				30
+#define MOTOR_PIN2				3
 
 
 //full power spin in below this number
-#define MIN_TRANSLATION_RPM                    600
+#define MIN_TRANSLATION_RPM                    450
 #define MAX_TRANSLATION_ROTATION_INTERVAL_US   (1.0f / MIN_TRANSLATION_RPM) * 60 * 1000 * 1000
 
 //don't even try to do heading track if we are this slow
@@ -96,7 +96,6 @@ float get_accel_force(void){
 float get_smoothed_accel_force(void){
 
     static float smoothed_accel = 0;
-
 
     if (smoothed_accel == 0) {
         smoothed_accel = get_accel_force();

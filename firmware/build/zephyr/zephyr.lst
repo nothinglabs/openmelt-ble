@@ -29437,7 +29437,7 @@ void init_melty(void){
    11e56:	f7ff ff8f 	bl	11d78 <gpio_pin_configure.constprop.0.isra.0>
 	gpio_pin_configure(dev, MOTOR_PIN2, GPIO_OUTPUT); 
    11e5a:	6820      	ldr	r0, [r4, #0]
-   11e5c:	211e      	movs	r1, #30
+   11e5c:	2103      	movs	r1, #3
    11e5e:	f7ff ff8b 	bl	11d78 <gpio_pin_configure.constprop.0.isra.0>
 
 	zero_g_accel = adc_multi_sample(INIT_ADC_READS);
@@ -29469,7 +29469,7 @@ void motors_safe(void) {
 }
    11e8e:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
 	gpio_pin_set(dev, MOTOR_PIN2, 0);
-   11e92:	211e      	movs	r1, #30
+   11e92:	2103      	movs	r1, #3
    11e94:	f7ff bf9a 	b.w	11dcc <gpio_pin_set.isra.0>
    11e98:	20001dcc 	.word	0x20001dcc
 
@@ -29512,7 +29512,6 @@ float get_smoothed_accel_force(void){
    11ecc:	b570      	push	{r4, r5, r6, lr}
 
     static float smoothed_accel = 0;
-
 
     if (smoothed_accel == 0) {
    11ece:	4c0e      	ldr	r4, [pc, #56]	; (11f08 <get_smoothed_accel_force+0x3c>)
@@ -29748,9 +29747,9 @@ struct melty_parameters_t get_melty_parameters(void) {
    12054:	3f8ccccd 	.word	0x3f8ccccd
    12058:	3ecccccd 	.word	0x3ecccccd
    1205c:	447a0000 	.word	0x447a0000
-   12060:	47c35000 	.word	0x47c35000
-   12064:	48435000 	.word	0x48435000
-   12068:	00030d40 	.word	0x00030d40
+   12060:	48023556 	.word	0x48023556
+   12064:	48823556 	.word	0x48823556
+   12068:	000411aa 	.word	0x000411aa
 
 0001206c <do_melty>:
 
@@ -29869,7 +29868,7 @@ static inline uint32_t arch_k_cycle_get_32(void)
 					gpio_pin_set(dev, MOTOR_PIN2, 1);
    1210c:	2201      	movs	r2, #1
 					gpio_pin_set(dev, MOTOR_PIN2, 0);
-   1210e:	211e      	movs	r1, #30
+   1210e:	2103      	movs	r1, #3
    12110:	f7ff fe5c 	bl	11dcc <gpio_pin_set.isra.0>
    12114:	e019      	b.n	1214a <do_melty+0xde>
 			if (time_spent_this_rotation_us >= melty_parameters.motor_start1 && 
@@ -29891,7 +29890,7 @@ static inline uint32_t arch_k_cycle_get_32(void)
    1212e:	2201      	movs	r2, #1
 					gpio_pin_set(dev, MOTOR_PIN2, 0);
    12130:	6828      	ldr	r0, [r5, #0]
-   12132:	211e      	movs	r1, #30
+   12132:	2103      	movs	r1, #3
    12134:	f7ff fe4a 	bl	11dcc <gpio_pin_set.isra.0>
    12138:	e7d6      	b.n	120e8 <do_melty+0x7c>
    1213a:	2200      	movs	r2, #0
