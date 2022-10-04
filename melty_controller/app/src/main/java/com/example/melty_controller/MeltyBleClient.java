@@ -130,9 +130,13 @@ public class MeltyBleClient {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             if (characteristic == meltyDataCharacteristic) {
-                Log.e("BLE", "Rotate interval: " + characteristic.getValue()[0]);
-                float rpm = (1.0f / (characteristic.getValue()[0] & 0xff)) * 1000 * 60;
-                meltyBleClientCallback.gotRpmData((int)rpm);
+                float rpm;
+                if (characteristic.getValue()[0] == 0) rpm = 0;
+                    else rpm = (1.0f / (characteristic.getValue()[0] & 0xff)) * 1000 * 60;
+
+                float batteryVoltage = (characteristic.getValue()[2] & 0xff) / 10.0f;
+                Log.e("BLE", "Melty stats (RPM /V): " + rpm + " / " + batteryVoltage);
+                meltyBleClientCallback.gotRpmData((int)rpm, batteryVoltage);
             }
             super.onCharacteristicChanged(gatt, characteristic);
         }

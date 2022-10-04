@@ -206,19 +206,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         handler.post(runnableCode);
     }
 
-    public void gotRpmData(int rpm){
+    public void gotRpmData(int rpm, float batteryVoltage){
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
                 TextView textView = (TextView) findViewById(R.id.rpmText);
                 if (rpm == 0) textView.setText("---");
                 else textView.setText(rpm + " RPM");
+
+                TextView voltageText = (TextView) findViewById(R.id.voltageText);
+                voltageText.setText(String.format("%.2f", batteryVoltage) + " v");
             }
         });
     }
 
     public void connectStatusUpdate(String statusString) {
         //clear RPM - so we don't show prior speed if connection drops
-        gotRpmData(0);
+        gotRpmData(0, 0.0f);
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
                 TextView textView = (TextView) findViewById(R.id.connectStatusText);

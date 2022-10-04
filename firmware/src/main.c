@@ -219,6 +219,7 @@ void main(void)
 			do_melty();
 		}
 		
+		update_melty_stats(0, get_battery_voltage());	//assures voltage is updated even if throttle at 0
 		motors_safe();
 
 		status_led_flash(is_connected);

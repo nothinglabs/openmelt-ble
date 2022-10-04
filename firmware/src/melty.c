@@ -12,6 +12,7 @@
 #include <device.h>
 #include <math.h>
 
+#include "melty.h"
 #include "melty_ble.h"
 #include "analog_in.h"
 
@@ -19,6 +20,13 @@
 #define MOTOR_PIN1				4
 #define MOTOR_PIN2				3
 
+//AIN04 = pin 28
+#define ACCEL_ADC_CHANNEL 4	
+
+//AIN05 = pin 29
+#define BATTERY_V_ADC_CHANNEL 5	
+
+#define BATTERY_VOLTAGE_DIVIDER_RATIO 11.0f	//For example - 11k to V+ and to 1k to GND
 
 //full power spin in below this number
 #define MIN_TRANSLATION_RPM                    450
@@ -37,31 +45,21 @@
 //number of reads per ADC sample during translation (in addition to any oversampling)
 #define ADC_READS   1
 
+//number of reads for battery voltage
+#define BATTERY_ADC_READS   1
+
 //times to sample ADC for initial "0g" read
 #define INIT_ADC_READS   200
 
-#define ADC_CHANNEL 4
-
-typedef struct melty_parameters_t {
-	u_int32_t rotation_interval_us;
-	u_int32_t led_start;
-	u_int32_t led_stop;
-	u_int32_t motor_start1;
-	u_int32_t motor_stop1;
-	u_int32_t motor_start2;
-	u_int32_t motor_stop2;
-};
 
 static const struct device *dev;
 
 static float zero_g_accel;
 
-static u_int8_t melty_stats[3] = {0, 0, 0};
-
-float adc_multi_sample(int samples) {
+float adc_multi_sample(int samples, int adc_channel) {
 	float multi_sample = 0;
     for (int loop = 0; loop < samples; loop ++) {
-		multi_sample += AnalogRead(ADC_CHANNEL);
+		multi_sample += AnalogRead(adc_channel);
 	}
     return multi_sample / samples;
 }
@@ -73,7 +71,7 @@ void init_melty(void){
 	gpio_pin_configure(dev, MOTOR_PIN1, GPIO_OUTPUT); 
 	gpio_pin_configure(dev, MOTOR_PIN2, GPIO_OUTPUT); 
 
-	zero_g_accel = adc_multi_sample(INIT_ADC_READS);
+	zero_g_accel = adc_multi_sample(INIT_ADC_READS, ACCEL_ADC_CHANNEL);
 }
 
 void motors_safe(void) {
@@ -83,9 +81,9 @@ void motors_safe(void) {
 }
 
 
-float get_accel_force(void){
+static float get_accel_force(void){
 
-	float relative_adc_read = adc_multi_sample(ADC_READS) - zero_g_accel;
+	float relative_adc_read = adc_multi_sample(ADC_READS, ACCEL_ADC_CHANNEL) - zero_g_accel;
 	
 	float g_force = relative_adc_read / G_PER_ADC;
 	if (g_force < 0) g_force = 0;
@@ -93,7 +91,7 @@ float get_accel_force(void){
 	return g_force;
 }
 
-float get_smoothed_accel_force(void){
+static float get_smoothed_accel_force(void){
 
     static float smoothed_accel = 0;
 
@@ -106,7 +104,7 @@ float get_smoothed_accel_force(void){
 	return smoothed_accel;
 }
 
-float get_rotation_interval_ms(void){
+static float get_rotation_interval_ms(void){
 
 	//increasing causes tracking speed to decrease
 	float radius_in_cm = get_radius();
@@ -124,7 +122,12 @@ float get_rotation_interval_ms(void){
 }
 
 
-struct melty_parameters_t get_melty_parameters(void) {
+float get_battery_voltage(void) {
+	float voltage = adc_multi_sample(BATTERY_ADC_READS, BATTERY_V_ADC_CHANNEL);
+	return voltage * BATTERY_VOLTAGE_DIVIDER_RATIO;
+}
+
+static struct melty_parameters_t get_melty_parameters(void) {
 
 	float led_offset_portion = get_led_offset() / 100.0f;
 	float motor_on_portion = get_throttle() / 100.0f;	
@@ -168,6 +171,12 @@ struct melty_parameters_t get_melty_parameters(void) {
 
 }
 
+void update_melty_stats(int rotation_interval_ms, float battery_voltage) {
+	u_int8_t melty_stats[3] = {0, 0, 0};
+	melty_stats[0] = rotation_interval_ms;
+	melty_stats[2] = battery_voltage * 10.0f;
+	bt_send_melty_stats(melty_stats);
+}
 
 void do_melty(void){
 		
@@ -183,8 +192,8 @@ void do_melty(void){
 
 	struct melty_parameters_t melty_parameters = get_melty_parameters();
 
-	melty_stats[0] = melty_parameters.rotation_interval_us / 1000;
-	bt_send_melty_stats(melty_stats);
+	update_melty_stats(melty_parameters.rotation_interval_us / 1000, get_battery_voltage());
+
 	cycle_count++;
 
 	while(time_spent_this_rotation_us < melty_parameters.rotation_interval_us) {
