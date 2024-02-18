@@ -28,6 +28,9 @@
 		sw2 = &button2;
 		sw3 = &button3;
 		bootloader-led0 = &led0;
+		mcuboot-button0 = &button0;
+		mcuboot-led0 = &led0;
+		watchdog0 = &wdt0;
 	};
 	soc {
 		#address-cells = < 0x1 >;
@@ -68,7 +71,6 @@
 			reg = < 0x40000000 0x1000 >;
 			interrupts = < 0x0 0x1 >;
 			status = "okay";
-			label = "CLOCK";
 		};
 		power: power@40000000 {
 			compatible = "nordic,nrf-power";
@@ -93,7 +95,6 @@
 			reg = < 0x40002000 0x1000 >;
 			interrupts = < 0x2 0x1 >;
 			status = "okay";
-			label = "UART_0";
 			current-speed = < 0x1c200 >;
 			pinctrl-0 = < &uart0_default >;
 			pinctrl-1 = < &uart0_sleep >;
@@ -107,7 +108,6 @@
 			clock-frequency = < 0x186a0 >;
 			interrupts = < 0x3 0x1 >;
 			status = "okay";
-			label = "I2C_0";
 			pinctrl-0 = < &i2c0_default >;
 			pinctrl-1 = < &i2c0_sleep >;
 			pinctrl-names = "default", "sleep";
@@ -118,8 +118,8 @@
 			#size-cells = < 0x0 >;
 			reg = < 0x40003000 0x1000 >;
 			interrupts = < 0x3 0x1 >;
+			max-frequency = < 0x7a1200 >;
 			status = "disabled";
-			label = "SPI_0";
 			pinctrl-0 = < &spi0_default >;
 			pinctrl-1 = < &spi0_sleep >;
 			pinctrl-names = "default", "sleep";
@@ -131,8 +131,7 @@
 			reg = < 0x40004000 0x1000 >;
 			clock-frequency = < 0x186a0 >;
 			interrupts = < 0x4 0x1 >;
-			status = "disabled";
-			label = "I2C_1";
+			status = "okay";
 			pinctrl-0 = < &i2c1_default >;
 			pinctrl-1 = < &i2c1_sleep >;
 			pinctrl-names = "default", "sleep";
@@ -143,8 +142,8 @@
 			#size-cells = < 0x0 >;
 			reg = < 0x40004000 0x1000 >;
 			interrupts = < 0x4 0x1 >;
-			status = "okay";
-			label = "SPI_1";
+			max-frequency = < 0x7a1200 >;
+			status = "disabled";
 			pinctrl-0 = < &spi1_default >;
 			pinctrl-1 = < &spi1_sleep >;
 			pinctrl-names = "default", "sleep";
@@ -160,14 +159,12 @@
 			reg = < 0x40006000 0x1000 >;
 			interrupts = < 0x6 0x5 >;
 			status = "okay";
-			label = "GPIOTE_0";
 		};
 		adc: adc@40007000 {
 			compatible = "nordic,nrf-saadc";
 			reg = < 0x40007000 0x1000 >;
 			interrupts = < 0x7 0x1 >;
 			status = "okay";
-			label = "ADC_0";
 			#io-channel-cells = < 0x1 >;
 			phandle = < 0x14 >;
 		};
@@ -178,7 +175,6 @@
 			cc-num = < 0x4 >;
 			interrupts = < 0x8 0x1 >;
 			prescaler = < 0x0 >;
-			label = "TIMER_0";
 		};
 		timer1: timer@40009000 {
 			compatible = "nordic,nrf-timer";
@@ -187,7 +183,6 @@
 			cc-num = < 0x4 >;
 			interrupts = < 0x9 0x1 >;
 			prescaler = < 0x0 >;
-			label = "TIMER_1";
 		};
 		timer2: timer@4000a000 {
 			compatible = "nordic,nrf-timer";
@@ -196,7 +191,6 @@
 			cc-num = < 0x4 >;
 			interrupts = < 0xa 0x1 >;
 			prescaler = < 0x0 >;
-			label = "TIMER_2";
 			phandle = < 0x11 >;
 		};
 		rtc0: rtc@4000b000 {
@@ -207,28 +201,24 @@
 			status = "okay";
 			clock-frequency = < 0x8000 >;
 			prescaler = < 0x1 >;
-			label = "RTC_0";
 		};
 		temp: temp@4000c000 {
 			compatible = "nordic,nrf-temp";
 			reg = < 0x4000c000 0x1000 >;
 			interrupts = < 0xc 0x1 >;
 			status = "okay";
-			label = "TEMP_0";
 		};
 		rng: random@4000d000 {
 			compatible = "nordic,nrf-rng";
 			reg = < 0x4000d000 0x1000 >;
 			interrupts = < 0xd 0x1 >;
 			status = "okay";
-			label = "RNG";
 		};
 		ecb: ecb@4000e000 {
 			compatible = "nordic,nrf-ecb";
 			reg = < 0x4000e000 0x1000 >;
 			interrupts = < 0xe 0x1 >;
 			status = "okay";
-			label = "ECB";
 		};
 		ccm: ccm@4000f000 {
 			compatible = "nordic,nrf-ccm";
@@ -242,7 +232,6 @@
 			reg = < 0x40010000 0x1000 >;
 			interrupts = < 0x10 0x1 >;
 			status = "okay";
-			label = "WDT";
 		};
 		rtc1: rtc@40011000 {
 			compatible = "nordic,nrf-rtc";
@@ -252,14 +241,12 @@
 			status = "okay";
 			clock-frequency = < 0x8000 >;
 			prescaler = < 0x1 >;
-			label = "RTC_1";
 		};
 		qdec: qdec0: qdec@40012000 {
 			compatible = "nordic,nrf-qdec";
 			reg = < 0x40012000 0x1000 >;
 			interrupts = < 0x12 0x1 >;
 			status = "disabled";
-			label = "QDEC";
 		};
 		comp: comparator@40013000 {
 			compatible = "nordic,nrf-comp";
@@ -311,7 +298,6 @@
 			cc-num = < 0x6 >;
 			interrupts = < 0x1a 0x1 >;
 			prescaler = < 0x0 >;
-			label = "TIMER_3";
 		};
 		timer4: timer@4001b000 {
 			compatible = "nordic,nrf-timer";
@@ -320,14 +306,12 @@
 			cc-num = < 0x6 >;
 			interrupts = < 0x1b 0x1 >;
 			prescaler = < 0x0 >;
-			label = "TIMER_4";
 		};
 		pwm0: pwm@4001c000 {
 			compatible = "nordic,nrf-pwm";
 			reg = < 0x4001c000 0x1000 >;
 			interrupts = < 0x1c 0x1 >;
 			status = "okay";
-			label = "PWM_0";
 			#pwm-cells = < 0x3 >;
 			pinctrl-0 = < &pwm0_default >;
 			pinctrl-1 = < &pwm0_sleep >;
@@ -339,17 +323,14 @@
 			reg = < 0x4001d000 0x1000 >;
 			interrupts = < 0x1d 0x1 >;
 			status = "disabled";
-			label = "PDM_0";
 		};
 		flash_controller: flash-controller@4001e000 {
 			compatible = "nordic,nrf52-flash-controller";
 			reg = < 0x4001e000 0x1000 >;
 			#address-cells = < 0x1 >;
 			#size-cells = < 0x1 >;
-			label = "NRF_FLASH_DRV_NAME";
 			flash0: flash@0 {
 				compatible = "soc-nv-flash";
-				label = "NRF_FLASH";
 				erase-block-size = < 0x1000 >;
 				write-block-size = < 0x4 >;
 				reg = < 0x0 0x80000 >;
@@ -395,7 +376,6 @@
 			reg = < 0x40021000 0x1000 >;
 			interrupts = < 0x21 0x1 >;
 			status = "disabled";
-			label = "PWM_1";
 			#pwm-cells = < 0x3 >;
 		};
 		pwm2: pwm@40022000 {
@@ -403,7 +383,6 @@
 			reg = < 0x40022000 0x1000 >;
 			interrupts = < 0x22 0x1 >;
 			status = "disabled";
-			label = "PWM_2";
 			#pwm-cells = < 0x3 >;
 		};
 		spi2: arduino_spi: spi@40023000 {
@@ -412,8 +391,8 @@
 			#size-cells = < 0x0 >;
 			reg = < 0x40023000 0x1000 >;
 			interrupts = < 0x23 0x1 >;
+			max-frequency = < 0x7a1200 >;
 			status = "okay";
-			label = "SPI_2";
 			cs-gpios = < &arduino_header 0x10 0x1 >;
 			pinctrl-0 = < &spi2_default >;
 			pinctrl-1 = < &spi2_sleep >;
@@ -427,7 +406,6 @@
 			status = "okay";
 			clock-frequency = < 0x8000 >;
 			prescaler = < 0x1 >;
-			label = "RTC_2";
 		};
 		i2s0: i2s@40025000 {
 			compatible = "nordic,nrf-i2s";
@@ -436,14 +414,12 @@
 			reg = < 0x40025000 0x1000 >;
 			interrupts = < 0x25 0x1 >;
 			status = "disabled";
-			label = "I2S_0";
 		};
 		gpio0: gpio@50000000 {
 			compatible = "nordic,nrf-gpio";
 			gpio-controller;
 			reg = < 0x50000000 0x1000 >;
 			#gpio-cells = < 0x2 >;
-			label = "GPIO_0";
 			status = "okay";
 			port = < 0x0 >;
 			phandle = < 0x12 >;
@@ -546,7 +522,6 @@
 	};
 	rng_hci: entropy_bt_hci {
 		compatible = "zephyr,bt-hci-entropy";
-		label = "bt_hci_entropy";
 		status = "okay";
 	};
 	cpus {
@@ -556,13 +531,18 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-m4f";
 			reg = < 0x0 >;
-			swo-ref-frequency = < 0x1e84800 >;
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x1 >;
+			itm: itm@e0000000 {
+				compatible = "arm,armv7m-itm";
+				reg = < 0xe0000000 0x1000 >;
+				swo-ref-frequency = < 0x1e84800 >;
+			};
 		};
 	};
 	sw_pwm: sw-pwm {
 		compatible = "nordic,nrf-sw-pwm";
 		status = "disabled";
-		label = "SW_PWM";
 		generator = < &timer2 >;
 		clock-prescaler = < 0x0 >;
 		#pwm-cells = < 0x3 >;

@@ -1,0 +1,3 @@
+osource "/Users/rich/projects/openmelt-ble/firmware/boards/shields/*/Kconfig.defconfig"
+osource "/Users/rich/projects/openmelt-ble/firmware/./boards/shields/*/Kconfig.defconfig"
+osource "/opt/nordic/ncs/v2.1.0/nrf/boards/shields/*/Kconfig.defconfig"

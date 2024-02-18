@@ -18,6 +18,8 @@ target_sources(app PRIVATE
   src/analog_in.c
   src/melty_ble.c
   src/melty.c
+  src/accel.c
+  src/lis331dlh_reg.c
 )
 
 # Preinitialization related to Thingy:53 DFU

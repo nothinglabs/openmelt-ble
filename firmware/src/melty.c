@@ -16,7 +16,7 @@
 #include "melty_ble.h"
 #include "analog_in.h"
 
-#define MELTY_LED_PIN			2
+#define MELTY_LED_PIN			13
 #define MOTOR_PIN1				4
 #define MOTOR_PIN2				3
 
@@ -29,7 +29,7 @@
 #define BATTERY_VOLTAGE_DIVIDER_RATIO 11.0f	//For example - 11k to V+ and to 1k to GND
 
 //full power spin in below this number
-#define MIN_TRANSLATION_RPM                    450
+#define MIN_TRANSLATION_RPM                    250
 #define MAX_TRANSLATION_ROTATION_INTERVAL_US   (1.0f / MIN_TRANSLATION_RPM) * 60 * 1000 * 1000
 
 //don't even try to do heading track if we are this slow
@@ -66,7 +66,8 @@ float adc_multi_sample(int samples, int adc_channel) {
 
 void init_melty(void){
 
-	dev = device_get_binding("GPIO_0");
+	dev = DEVICE_DT_GET(DT_NODELABEL(gpio0));
+
 	gpio_pin_configure(dev, MELTY_LED_PIN, GPIO_OUTPUT); 
 	gpio_pin_configure(dev, MOTOR_PIN1, GPIO_OUTPUT); 
 	gpio_pin_configure(dev, MOTOR_PIN2, GPIO_OUTPUT); 
@@ -88,6 +89,8 @@ static float get_accel_force(void){
 	float g_force = relative_adc_read / G_PER_ADC;
 	if (g_force < 0) g_force = 0;
 
+	//test!
+	return 15;
 	return g_force;
 }
 

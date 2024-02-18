@@ -1,0 +1,1 @@
+void lis331dlh_read_data_polling(void);

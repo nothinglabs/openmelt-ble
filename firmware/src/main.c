@@ -28,6 +28,8 @@
 
 #include "melty_ble.h"
 #include "melty.h"
+#include "accel.h"
+
 
 #define DEVICE_NAME             CONFIG_BT_DEVICE_NAME
 #define DEVICE_NAME_LEN         (sizeof(DEVICE_NAME) - 1)
@@ -165,6 +167,8 @@ bool check_heart_beat(void)
 
 void main(void)
 {
+	lis331dlh_read_data_polling();
+	
 	int err;
 
 	printk("Starting Bluetooth Peripheral LBS example\n");
@@ -211,6 +215,7 @@ void main(void)
 	printk("Advertising successfully started\n");
 	
 	init_melty();
+
 
 	while (1)
 	{

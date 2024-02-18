@@ -2,5 +2,10 @@
     "nrf-connect.applications": [
         "${workspaceFolder}"
     ],
-    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.0.2}"
+    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.1.0}",
+    "cmake.configureOnOpen": false,
+    "nrf-connect.topdir": "${nrf-connect.sdk:2.1.0}",
+    "files.associations": {
+        "uuid.h": "c"
+    }
 }

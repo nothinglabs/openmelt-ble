@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/rich/ncs/v2.0.2/zephyr/drivers
+# Install script for directory: /opt/nordic/ncs/v2.1.0/zephyr/drivers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Zephyr-Kernel")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,81 +34,86 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/rich/ncs/toolchains/v2.0.2/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-objdump.exe")
+  set(CMAKE_OBJDUMP "/opt/nordic/ncs/toolchains/v2.1.0/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-objdump")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/interrupt_controller/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/interrupt_controller/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/misc/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/misc/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/pcie/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/pcie/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/disk/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/disk/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/usb/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/usb/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/usbc/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/usbc/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/adc/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/adc/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/clock_control/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/clock_control/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/console/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/console/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/gpio/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/gpio/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/flash/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/i2c/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/serial/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/flash/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/entropy/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/serial/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/timer/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/entropy/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/data/melty_ble/firmware/build/zephyr/drivers/pinctrl/cmake_install.cmake")
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/timer/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rich/projects/openmelt-ble/firmware/build/zephyr/drivers/pinctrl/cmake_install.cmake")
 endif()
 
