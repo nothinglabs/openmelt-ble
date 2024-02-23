@@ -89,6 +89,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("/Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/i2c/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("/Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/flash/cmake_install.cmake")
 endif()
 

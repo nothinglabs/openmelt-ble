@@ -30,6 +30,12 @@
 #include "melty.h"
 #include "accel.h"
 
+/* size of stack area used by each thread */
+#define STACKSIZE 1024
+
+/* scheduling priority used by each thread */
+#define PRIORITY 7
+
 
 #define DEVICE_NAME             CONFIG_BT_DEVICE_NAME
 #define DEVICE_NAME_LEN         (sizeof(DEVICE_NAME) - 1)
@@ -165,13 +171,8 @@ bool check_heart_beat(void)
 	return heart_beat_good;
 }
 
-void main(void)
-{
-	lis331dlh_read_data_polling();
-	
+void init_ble() {
 	int err;
-
-	printk("Starting Bluetooth Peripheral LBS example\n");
 
 	if (IS_ENABLED(CONFIG_BT_LBS_SECURITY_ENABLED)) {
 		err = bt_conn_auth_cb_register(&conn_auth_callbacks);
@@ -211,11 +212,27 @@ void main(void)
 		printk("Advertising failed to start (err %d)\n", err);
 		return;
 	}
-
 	printk("Advertising successfully started\n");
+
+
+
+}
+
+void sample_adc() {
+	init_accel();
+
+	while(true) {
+		update_accel_value();
+		k_msleep(30);
+	}
+}
+
+void main(void)
+{
+
+	init_ble();
 	
 	init_melty();
-
 
 	while (1)
 	{
@@ -232,3 +249,8 @@ void main(void)
 	}
 
 }
+
+
+K_THREAD_DEFINE(sample_adc0_id, STACKSIZE, sample_adc, NULL, NULL, NULL,
+		PRIORITY, 0, 0);
+

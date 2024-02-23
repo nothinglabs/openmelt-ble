@@ -34,7 +34,8 @@ static struct adc_channel_cfg m_1st_channel_cfg = {
 // return device* for the adc
 static const struct device* getAdcDevice(void)
 {
-	return device_get_binding(ADC_DEVICE_NAME);
+	return DEVICE_DT_GET(DT_NODELABEL(adc));
+//	return device_get_binding(ADC_DEVICE_NAME);
 }
 
 // initialize the adc channel
@@ -44,7 +45,7 @@ static const struct device* init_adc(int channel)
 	const struct device *adc_dev = getAdcDevice();
 	if(_LastChannel != channel)
 	{
-		_IsInitialized = false;
+		_IsInitialized = false;	
 		_LastChannel = channel;
 	}
 

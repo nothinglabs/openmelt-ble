@@ -15,18 +15,18 @@
 #include "melty.h"
 #include "melty_ble.h"
 #include "analog_in.h"
+#include "accel.h"
 
 #define MELTY_LED_PIN			13
 #define MOTOR_PIN1				4
 #define MOTOR_PIN2				3
 
-//AIN04 = pin 28
-#define ACCEL_ADC_CHANNEL 4	
+#define ZERO_G_OFFSET_SAMPLES	30
 
 //AIN05 = pin 29
 #define BATTERY_V_ADC_CHANNEL 5	
 
-#define BATTERY_VOLTAGE_DIVIDER_RATIO 11.0f	//For example - 11k to V+ and to 1k to GND
+#define BATTERY_VOLTAGE_DIVIDER_RATIO 11.1f	//For example - 11k to V+ and to 1k to GND
 
 //full power spin in below this number
 #define MIN_TRANSLATION_RPM                    250
@@ -36,20 +36,8 @@
 //limits max time spent in do_melty (helps assure heartbeat is checked at safe interval)
 #define MAX_TRACKING_ROTATION_INTERVAL_US   MAX_TRANSLATION_ROTATION_INTERVAL_US * 2
 
-//moving average for accel (.98f = 98% of prior value is kept for new reading)
-#define ACCEL_SMOOTHING_FACTOR     .98f
-
-//use negative if need to invert (to accout for accel orientation)
-#define G_PER_ADC   -.008f
-
-//number of reads per ADC sample during translation (in addition to any oversampling)
-#define ADC_READS   1
-
 //number of reads for battery voltage
 #define BATTERY_ADC_READS   1
-
-//times to sample ADC for initial "0g" read
-#define INIT_ADC_READS   200
 
 
 static const struct device *dev;
@@ -72,7 +60,11 @@ void init_melty(void){
 	gpio_pin_configure(dev, MOTOR_PIN1, GPIO_OUTPUT); 
 	gpio_pin_configure(dev, MOTOR_PIN2, GPIO_OUTPUT); 
 
-	zero_g_accel = adc_multi_sample(INIT_ADC_READS, ACCEL_ADC_CHANNEL);
+	for (int x = 0; x < ZERO_G_OFFSET_SAMPLES; x++) {
+		zero_g_accel += get_accel_g();
+	}
+	zero_g_accel = zero_g_accel / ZERO_G_OFFSET_SAMPLES;
+
 }
 
 void motors_safe(void) {
@@ -82,31 +74,6 @@ void motors_safe(void) {
 }
 
 
-static float get_accel_force(void){
-
-	float relative_adc_read = adc_multi_sample(ADC_READS, ACCEL_ADC_CHANNEL) - zero_g_accel;
-	
-	float g_force = relative_adc_read / G_PER_ADC;
-	if (g_force < 0) g_force = 0;
-
-	//test!
-	return 15;
-	return g_force;
-}
-
-static float get_smoothed_accel_force(void){
-
-    static float smoothed_accel = 0;
-
-    if (smoothed_accel == 0) {
-        smoothed_accel = get_accel_force();
-    } else {
-        smoothed_accel = (smoothed_accel * ACCEL_SMOOTHING_FACTOR) + (get_accel_force() * (1.0f - ACCEL_SMOOTHING_FACTOR));
-    }
-
-	return smoothed_accel;
-}
-
 static float get_rotation_interval_ms(void){
 
 	//increasing causes tracking speed to decrease
@@ -114,7 +81,7 @@ static float get_rotation_interval_ms(void){
 
  	//calculate RPM from g's - derived from "G = 0.00001118 * r * RPM^2"
 	float rpm;
-	rpm = get_smoothed_accel_force() * 89445.0f;                               
+	rpm = get_accel_g() * 89445.0f;                               
 	rpm = rpm / radius_in_cm;
 	rpm = sqrt(rpm);	
 
@@ -126,8 +93,10 @@ static float get_rotation_interval_ms(void){
 
 
 float get_battery_voltage(void) {
+	static float moving_voltage = 0.0f;
 	float voltage = adc_multi_sample(BATTERY_ADC_READS, BATTERY_V_ADC_CHANNEL);
-	return voltage * BATTERY_VOLTAGE_DIVIDER_RATIO;
+	moving_voltage = (moving_voltage * 0.9f) + (voltage * BATTERY_VOLTAGE_DIVIDER_RATIO) * .1f;
+	return moving_voltage;
 }
 
 static struct melty_parameters_t get_melty_parameters(void) {
@@ -275,7 +244,7 @@ void status_led_flash(int connected) {
 	//fast flash if connected
     if (connected == 0) {
         k_sleep(K_MSEC(200));
-        int on_time = 1 + (int)(get_accel_force() * 50.0f);
+        int on_time = 1 + (int)(get_accel_g() * 50.0f);
 
         if (on_time > 0) {
             gpio_pin_set(dev, MELTY_LED_PIN, 1);

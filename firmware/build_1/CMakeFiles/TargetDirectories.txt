@@ -173,6 +173,9 @@
 /Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/gpio/CMakeFiles/rebuild_cache.dir
 /Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/gpio/CMakeFiles/edit_cache.dir
 /Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/gpio/CMakeFiles/drivers__gpio.dir
+/Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/i2c/CMakeFiles/rebuild_cache.dir
+/Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/i2c/CMakeFiles/edit_cache.dir
+/Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir
 /Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/flash/CMakeFiles/rebuild_cache.dir
 /Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/flash/CMakeFiles/edit_cache.dir
 /Users/rich/projects/openmelt-ble/firmware/build_1/zephyr/drivers/flash/CMakeFiles/drivers__flash.dir
