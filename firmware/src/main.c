@@ -29,6 +29,7 @@
 #include "melty_ble.h"
 #include "melty.h"
 #include "accel.h"
+#include "volt_monitor.h"
 
 /* size of stack area used by each thread */
 #define STACKSIZE 1024
@@ -218,7 +219,16 @@ void init_ble() {
 
 }
 
-void sample_adc() {
+void sample_bat_volt() {
+
+	while(true) {
+		update_battery_voltage();
+		k_msleep(100);
+	}
+}
+
+
+void sample_accel_thread() {
 	init_accel();
 
 	while(true) {
@@ -251,6 +261,10 @@ void main(void)
 }
 
 
-K_THREAD_DEFINE(sample_adc0_id, STACKSIZE, sample_adc, NULL, NULL, NULL,
+K_THREAD_DEFINE(sample_accel_thread0_id, STACKSIZE, sample_accel_thread, NULL, NULL, NULL,
 		PRIORITY, 0, 0);
+
+K_THREAD_DEFINE(sample_bat_volt0_id, STACKSIZE, sample_bat_volt, NULL, NULL, NULL,
+		PRIORITY, 0, 0);
+
 

@@ -16,6 +16,7 @@
 #include "melty_ble.h"
 #include "analog_in.h"
 #include "accel.h"
+#include "volt_monitor.h"
 
 #define MELTY_LED_PIN			13
 #define MOTOR_PIN1				4
@@ -23,10 +24,6 @@
 
 #define ZERO_G_OFFSET_SAMPLES	30
 
-//AIN05 = pin 29
-#define BATTERY_V_ADC_CHANNEL 5	
-
-#define BATTERY_VOLTAGE_DIVIDER_RATIO 11.1f	//For example - 11k to V+ and to 1k to GND
 
 //full power spin in below this number
 #define MIN_TRANSLATION_RPM                    250
@@ -36,21 +33,11 @@
 //limits max time spent in do_melty (helps assure heartbeat is checked at safe interval)
 #define MAX_TRACKING_ROTATION_INTERVAL_US   MAX_TRANSLATION_ROTATION_INTERVAL_US * 2
 
-//number of reads for battery voltage
-#define BATTERY_ADC_READS   1
-
 
 static const struct device *dev;
 
 static float zero_g_accel;
 
-float adc_multi_sample(int samples, int adc_channel) {
-	float multi_sample = 0;
-    for (int loop = 0; loop < samples; loop ++) {
-		multi_sample += AnalogRead(adc_channel);
-	}
-    return multi_sample / samples;
-}
 
 void init_melty(void){
 
@@ -92,12 +79,6 @@ static float get_rotation_interval_ms(void){
 }
 
 
-float get_battery_voltage(void) {
-	static float moving_voltage = 0.0f;
-	float voltage = adc_multi_sample(BATTERY_ADC_READS, BATTERY_V_ADC_CHANNEL);
-	moving_voltage = (moving_voltage * 0.9f) + (voltage * BATTERY_VOLTAGE_DIVIDER_RATIO) * .1f;
-	return moving_voltage;
-}
 
 static struct melty_parameters_t get_melty_parameters(void) {
 

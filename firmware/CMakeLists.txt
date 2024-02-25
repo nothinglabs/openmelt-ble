@@ -19,6 +19,7 @@ target_sources(app PRIVATE
   src/melty_ble.c
   src/melty.c
   src/accel.c
+  src/volt_monitor.c
   src/h3lis331dl_reg.c
 )
 

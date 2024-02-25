@@ -9,8 +9,6 @@ void status_led_flash(int connected);
 
 void update_melty_stats(int rotation_interval_ms, float battery_voltage);
 
-float get_battery_voltage(void);
-
 typedef struct melty_parameters_t {
 	u_int32_t rotation_interval_us;
 	u_int32_t led_start;
